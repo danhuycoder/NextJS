@@ -1,4 +1,5 @@
 'use client'
+
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -26,13 +27,13 @@ export default function RegisterPage() {
 
       if (res.ok) {
         alert('✅ Đăng ký thành công!')
-        console.log('Kết quả:', data)
+        console.log('Server response:', data)
       } else {
         alert('❌ Đăng ký thất bại: ' + data.message)
       }
     } catch (error) {
       console.error('Lỗi khi gọi API:', error)
-      alert('❌ Có lỗi xảy ra!')
+      alert('❌ Không thể kết nối đến server!')
     }
   }
 
@@ -41,17 +42,16 @@ export default function RegisterPage() {
       {/* Background image */}
       <div className="fixed inset-0 -z-10">
         <Image
-            src="/image/background.jpg"
-            alt=""
-            fill
-            className="object-cover z-[-10]"
-            priority
-/>
+          src="/image/background.jpg"
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+        />
       </div>
-      {/* Overlay */}
+
       <div className="fixed inset-0 bg-black/40 -z-10" />
 
-      {/* Form */}
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="w-full max-w-md">
           <Card className="backdrop-blur-md bg-white/10 border border-white/30 text-white p-8 rounded-xl shadow-2xl">
@@ -106,7 +106,7 @@ export default function RegisterPage() {
                 <Lock className="absolute top-2.5 left-3 h-5 w-5 text-white/80" />
               </div>
 
-              {/* Submit Button */}
+              {/* Button */}
               <Button
                 type="button"
                 onClick={handleRegister}
@@ -115,7 +115,6 @@ export default function RegisterPage() {
                 Register
               </Button>
 
-              {/* Link to login */}
               <p className="text-center text-sm text-white/80">
                 Already have an account?{' '}
                 <a href="/login" className="text-white font-medium underline">

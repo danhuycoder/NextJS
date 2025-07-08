@@ -1,30 +1,48 @@
-'use client'
+"use client";
 
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { User, Lock } from 'lucide-react'
-import { useState } from 'react'
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { User, Lock } from "lucide-react";
+import { useState } from "react";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("✅ " + data.message);
+      } else {
+        alert("❌ " + data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("❌ Không thể kết nối đến server!");
+    }
+  };
 
   return (
     <div
       className="min-h-screen w-full flex items-center justify-center bg-cover bg-center relative"
       style={{ backgroundImage: "url('/image/background.jpg')" }}
     >
-      {/* Overlay tối nhẹ để nổi card */}
       <div className="absolute inset-0 bg-black/50 z-0" />
 
-      {/* Card */}
       <div className="w-full max-w-md px-4 z-10">
         <Card className="backdrop-blur-md bg-white/10 border border-white/30 text-white p-8 rounded-xl shadow-2xl">
           <CardContent className="space-y-6">
             <h2 className="text-3xl font-bold text-center mb-4">Login</h2>
 
-            {/* Username */}
             <div className="relative">
               <Input
                 type="text"
@@ -36,7 +54,6 @@ export default function LoginPage() {
               <User className="absolute top-2.5 left-3 h-5 w-5 text-white/80" />
             </div>
 
-            {/* Password */}
             <div className="relative">
               <Input
                 type="password"
@@ -48,7 +65,6 @@ export default function LoginPage() {
               <Lock className="absolute top-2.5 left-3 h-5 w-5 text-white/80" />
             </div>
 
-            {/* Remember & Forgot */}
             <div className="flex justify-between text-sm items-center">
               <label className="flex items-center space-x-2">
                 <input type="checkbox" className="accent-white" />
@@ -59,18 +75,17 @@ export default function LoginPage() {
               </a>
             </div>
 
-            {/* Button */}
             <Button
-              type="submit"
+              type="button"
+              onClick={handleLogin}
               className="w-full rounded-full bg-white text-blue-900 font-semibold hover:bg-gray-200"
             >
               Login
             </Button>
 
-            {/* Register link */}
             <p className="text-center text-sm text-white/80">
-              Don’t have an account?{' '}
-              <a href="./register" className="text-white font-medium underline">
+              Don’t have an account?{" "}
+              <a href="/register" className="text-white font-medium underline">
                 Register
               </a>
             </p>
@@ -78,5 +93,5 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
