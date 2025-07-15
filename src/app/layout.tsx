@@ -1,9 +1,10 @@
+// app/layout.tsx (Server component)
+
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import HeroBanner from "@/components/Banner";
+import ClientLayout from "@/components/ClientLayout";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,10 +20,7 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body className={inter.className}>
-        <Header />
-        <HeroBanner />
-        {children}
-        <Footer />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

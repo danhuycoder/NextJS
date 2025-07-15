@@ -5,23 +5,34 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User, Lock } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-
+  const [remember, setRemember] = useState(false);
+  const router = useRouter();
   const handleLogin = async () => {
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch("/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ phone, password }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
         alert("✅ " + data.message);
+        localStorage.setItem("user", JSON.stringify(data.user)); //Lưu user
+
+        // Chuyển về trang chủ
+        router.push("/");
+
+        // Nếu cần lưu vào localStorage:
+        if (remember) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+        }
       } else {
         alert("❌ " + data.message);
       }
@@ -43,17 +54,19 @@ export default function LoginPage() {
           <CardContent className="space-y-6">
             <h2 className="text-3xl font-bold text-center mb-4">Login</h2>
 
+            {/* Phone */}
             <div className="relative">
               <Input
                 type="text"
-                placeholder="Username"
+                placeholder="Phone"
                 className="pl-10 bg-white/20 border-none text-white placeholder:text-white/70 rounded-full"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
               <User className="absolute top-2.5 left-3 h-5 w-5 text-white/80" />
             </div>
 
+            {/* Password */}
             <div className="relative">
               <Input
                 type="password"
@@ -65,9 +78,15 @@ export default function LoginPage() {
               <Lock className="absolute top-2.5 left-3 h-5 w-5 text-white/80" />
             </div>
 
+            {/* Remember me */}
             <div className="flex justify-between text-sm items-center">
               <label className="flex items-center space-x-2">
-                <input type="checkbox" className="accent-white" />
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                  className="accent-white"
+                />
                 <span>Remember Me</span>
               </label>
               <a href="#" className="hover:underline text-blue-200">
@@ -75,6 +94,7 @@ export default function LoginPage() {
               </a>
             </div>
 
+            {/* Submit */}
             <Button
               type="button"
               onClick={handleLogin}

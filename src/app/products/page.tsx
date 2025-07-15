@@ -22,17 +22,19 @@ export default function ProductList() {
   }, []);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6">
-      {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          id={product.id}
-          name={product.name}
-          price={product.price}
-          image={product.image[0]}
-          soldOut={product.soldOut}
-        />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6">
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            price={product.price}
+            image={product.image[0]}
+            soldOut={product.soldOut}
+          />
+        ))}
+      </div>
+    </>
   );
 }

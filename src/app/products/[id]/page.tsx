@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Heart, HeartIcon, ShoppingCart, Zap } from "lucide-react";
+import { addToCart } from "@/lib/Cart";
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,7 @@ export default function ProductDetailPage() {
       if (res.ok) {
         const data = await res.json();
         setProduct(data);
-        setSelectedImage(data.image[0]); // hiển thị ảnh đầu tiên
+        setSelectedImage(data.image[0]);
         if (data.soldOut || data.quantity === 0) {
           setQuantity(0);
         } else {
@@ -46,7 +47,6 @@ export default function ProductDetailPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Image */}
         <div className="flex flex-col gap-4">
-          {/* Ảnh lớn */}
           <div className="relative w-full h-[400px] rounded shadow overflow-hidden border">
             <Image
               src={selectedImage ?? product.image[0]}
@@ -56,7 +56,6 @@ export default function ProductDetailPage() {
             />
           </div>
 
-          {/* Thumbnails */}
           <div className="flex gap-2 overflow-x-auto">
             {product.image.map((img, index) => (
               <button
@@ -98,7 +97,7 @@ export default function ProductDetailPage() {
               : `Còn hàng (${product.quantity} sản phẩm)`}
           </p>
 
-          {/* Số lượng */}
+          {/* Quantity */}
           <div className="flex items-center gap-2">
             <span className="font-semibold">Số lượng:</span>
             <div className="flex items-center border rounded px-2 py-1">
@@ -147,7 +146,7 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Thông báo lỗi */}
+          {/* Error */}
           {error && <p className="text-sm text-red-500 italic">{error}</p>}
           {isSoldOut && (
             <p className="text-sm text-red-500 italic">
@@ -160,10 +159,21 @@ export default function ProductDetailPage() {
             <Button
               className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 flex items-center gap-2 cursor-pointer"
               disabled={isSoldOut}
+              onClick={() => {
+                addToCart({
+                  id: product.id,
+                  name: product.name,
+                  price: product.price,
+                  image: product.image,
+                  quantity,
+                });
+                alert("🛒 Đã thêm vào giỏ hàng!");
+              }}
             >
               <ShoppingCart size={18} />
               Thêm vào giỏ hàng
             </Button>
+
             <Button
               variant="outline"
               className="flex items-center gap-2 cursor-pointer"
@@ -172,6 +182,7 @@ export default function ProductDetailPage() {
               <Zap size={18} />
               Mua ngay
             </Button>
+
             <Button
               variant="ghost"
               onClick={() => setIsFavorite((prev) => !prev)}
