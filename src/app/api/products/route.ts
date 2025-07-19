@@ -153,6 +153,32 @@ export async function GET() {
       soldOut: false,
       quantity: 23,
     },
+    {
+    id: 13,
+    name: " Bàn học chân gập 3D",
+    image: [
+      "/image/banhoc.jpeg",
+    ],
+    price: 200000,
+    soldOut: false,
+    quantity: 23,
+  },
+  {
+    id: 14,
+    name: "Nồi cơm điện 2.2L GOSO",
+    price: 332800,
+    image: ["/image/noicomdien.jpeg"],
+    soldOut: false,
+    quantity: 23,
+  },
+  {
+    id: 15,
+    name: "Bình nấu nước GUGKDD 2.5L - ST29",
+    price: 200000,
+    image: ["/image/amdunsieutoc.jpeg"],
+    soldOut: false,
+    quantity: 13,
+  },
   ];
 
   // Trả về dữ liệu JSON

@@ -26,22 +26,17 @@ export default function Menu() {
           <Link href="/about" className="hover:underline">
             GIỚI THIỆU
           </Link>
-          <Link href="/binh-nuoc" className="hover:underline">
+          <Link href="/products" className="hover:underline">
             TẤT CẢ SẢN PHẨM
           </Link>
-          <Link href="/hang-su" className="hover:underline">
-            BÌNH NƯỚC - LY NƯỚC
-          </Link>
-          <Link href="/khuyen-mai" className="hover:underline">
-            HÀNG SỨ THỦY TINH
-          </Link>
-          <Link href="/khuyen-mai" className="hover:underline text-red-600">
+
+          <Link href="/promotion" className="hover:underline text-red-600">
             KHUYẾN MÃI
           </Link>
-          <Link href="/tin-tuc" className="hover:underline text-red-600">
+          <Link href="/news" className="hover:underline text-red-600">
             TIN TỨC
           </Link>
-          <Link href="/lien-he" className="hover:underline text-red-600">
+          <Link href="/contact" className="hover:underline text-red-600">
             LIÊN HỆ
           </Link>
         </nav>
@@ -75,7 +70,7 @@ export default function Menu() {
           <Link href="/about" onClick={() => setMobileMenuOpen(false)}>
             GIỚI THIỆU
           </Link>
-          <Link href="/binh-nuoc" onClick={() => setMobileMenuOpen(false)}>
+          <Link href="/products" onClick={() => setMobileMenuOpen(false)}>
             TẤT CẢ SẢN PHẨM
           </Link>
           <Link href="/hang-su" onClick={() => setMobileMenuOpen(false)}>
