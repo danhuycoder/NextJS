@@ -12,6 +12,8 @@ import {
   AlertTriangle,
   Boxes,
   X,
+  Search,
+  Filter,
 } from "lucide-react";
 import {
   Dialog,
@@ -22,26 +24,36 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Product = {
   id: number;
   name: string;
-  image: string[]; // array of image URLs
+  image: string[];
   price: number;
   soldOut: boolean;
   quantity: number;
 };
 
+type FilterType = "all" | "inStock" | "outOfStock";
+
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  // States for Edit Product
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<FilterType>("all");
+
   const [editProduct, setEditProduct] = useState<Product | null>(null);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
 
-  // States for Add Product
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false);
   const [newProduct, setNewProduct] = useState<Product>({
     id: 0,
     name: "",
@@ -51,25 +63,23 @@ export default function AdminPage() {
     quantity: 0,
   });
 
-  // Fetch products
+  // Fetch dữ liệu từ API
   useEffect(() => {
     async function fetchProducts() {
       const res = await fetch("/api/products");
-      const data = await res.json();
+      const data: Product[] = await res.json();
       setProducts(data);
       setLoading(false);
     }
     fetchProducts();
   }, []);
 
-  // Delete product
   const handleDelete = (id: number) => {
     if (confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
       setProducts((prev) => prev.filter((p) => p.id !== id));
     }
   };
 
-  // Edit product
   const handleEdit = (product: Product) => {
     setEditProduct(product);
     setIsEditDialogOpen(true);
@@ -77,7 +87,7 @@ export default function AdminPage() {
 
   const handleSaveEdit = () => {
     if (editProduct) {
-      const updatedProduct = {
+      const updatedProduct: Product = {
         ...editProduct,
         soldOut: editProduct.quantity === 0,
       };
@@ -89,9 +99,8 @@ export default function AdminPage() {
     }
   };
 
-  // Add product
   const handleAddProduct = () => {
-    const productToAdd = {
+    const productToAdd: Product = {
       ...newProduct,
       id: products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1,
       soldOut: newProduct.quantity === 0,
@@ -108,7 +117,7 @@ export default function AdminPage() {
     });
   };
 
-  // Handle image upload for new product
+  // Upload ảnh cho sản phẩm mới
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
@@ -128,7 +137,7 @@ export default function AdminPage() {
     });
   };
 
-  // Handle image upload for edit product
+  // Upload ảnh cho sản phẩm chỉnh sửa
   const handleEditImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && editProduct) {
       const filesArray = Array.from(e.target.files);
@@ -147,18 +156,58 @@ export default function AdminPage() {
     setEditProduct({ ...editProduct, image: updatedImages });
   };
 
+  // Lọc sản phẩm theo tên và trạng thái
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch = p.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "inStock" && !p.soldOut) ||
+      (statusFilter === "outOfStock" && p.soldOut);
+    return matchesSearch && matchesStatus;
+  });
+
   if (loading) return <p className="p-4 text-center">Đang tải sản phẩm...</p>;
 
-  // Dashboard statistics
-  const totalProducts = products.length;
-  const outOfStock = products.filter((p) => p.soldOut).length;
-  const totalStock = products.reduce((sum, p) => sum + p.quantity, 0);
+  const totalProducts = filteredProducts.length;
+  const outOfStock = filteredProducts.filter((p) => p.soldOut).length;
+  const totalStock = filteredProducts.reduce((sum, p) => sum + p.quantity, 0);
 
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
-      {/* Dashboard cards */}
+      {/* Search và Filter */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="relative w-full md:w-1/3">
+          <Search className="absolute left-2 top-2.5 text-gray-400" size={18} />
+          <Input
+            placeholder="Tìm kiếm sản phẩm..."
+            className="pl-8"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <Filter className="text-gray-500" size={18} />
+          <Select
+            value={statusFilter}
+            onValueChange={(val: FilterType) => setStatusFilter(val)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Lọc trạng thái" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tất cả</SelectItem>
+              <SelectItem value="inStock">Còn hàng</SelectItem>
+              <SelectItem value="outOfStock">Hết hàng</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Dashboard */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="shadow">
           <CardHeader className="flex flex-row items-center justify-between">
@@ -189,7 +238,7 @@ export default function AdminPage() {
         </Card>
       </div>
 
-      {/* Products table */}
+      {/* Bảng sản phẩm */}
       <Card>
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-4">
@@ -214,7 +263,7 @@ export default function AdminPage() {
               </tr>
             </thead>
             <tbody>
-              {products.map((p) => (
+              {filteredProducts.map((p) => (
                 <tr key={p.id} className="border-b hover:bg-gray-50">
                   <td className="p-2">{p.id}</td>
                   <td className="p-2">{p.name}</td>
@@ -319,7 +368,6 @@ export default function AdminPage() {
                   accept="image/*"
                   onChange={handleEditImageUpload}
                 />
-                {/* Preview images */}
                 <div className="flex flex-wrap gap-2 mt-2">
                   {editProduct.image.map((img, index) => (
                     <div key={index} className="relative w-16 h-16">
@@ -404,7 +452,6 @@ export default function AdminPage() {
                 accept="image/*"
                 onChange={handleImageUpload}
               />
-              {/* Preview images */}
               <div className="flex flex-wrap gap-2 mt-2">
                 {newProduct.image.map((img, index) => (
                   <div key={index} className="relative w-16 h-16">
