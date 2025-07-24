@@ -3,5 +3,5 @@ export default function LoginLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <>{children}</>; // Không render sidebar cho login
 }

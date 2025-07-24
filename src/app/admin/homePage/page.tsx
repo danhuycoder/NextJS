@@ -244,7 +244,7 @@ export default function AdminPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold">Danh sách sản phẩm</h2>
             <Button
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 cursor-pointer"
               onClick={() => setIsAddDialogOpen(true)}
             >
               <Plus size={18} /> Thêm sản phẩm
@@ -293,6 +293,7 @@ export default function AdminPage() {
                     <Button
                       variant="outline"
                       size="icon"
+                      className="cursor-pointer"
                       onClick={() => handleEdit(p)}
                     >
                       <Edit size={16} />
@@ -300,6 +301,7 @@ export default function AdminPage() {
                     <Button
                       variant="destructive"
                       size="icon"
+                      className="cursor-pointer"
                       onClick={() => handleDelete(p.id)}
                     >
                       <Trash2 size={16} />
@@ -380,7 +382,7 @@ export default function AdminPage() {
                       />
                       <button
                         type="button"
-                        className="absolute top-0 right-0 bg-red-600 text-white p-0.5 rounded-full"
+                        className="absolute top-0 right-0 bg-red-600 text-white p-0.5 rounded-full cursor-pointer"
                         onClick={() => removeEditProductImage(index)}
                       >
                         <X size={12} />
@@ -392,7 +394,9 @@ export default function AdminPage() {
             </div>
           )}
           <DialogFooter>
-            <Button onClick={handleSaveEdit}>Lưu</Button>
+            <Button className="cursor-pointer" onClick={handleSaveEdit}>
+              Lưu
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -464,7 +468,7 @@ export default function AdminPage() {
                     />
                     <button
                       type="button"
-                      className="absolute top-0 right-0 bg-red-600 text-white p-0.5 rounded-full"
+                      className="absolute top-0 right-0 bg-red-600 text-white p-0.5 rounded-full cursor-pointer"
                       onClick={() => removeNewProductImage(index)}
                     >
                       <X size={12} />
@@ -475,7 +479,9 @@ export default function AdminPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={handleAddProduct}>Thêm</Button>
+            <Button className="cursor-pointer" onClick={handleAddProduct}>
+              Thêm
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

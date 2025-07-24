@@ -90,7 +90,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </Button>
 
           <Link href={`/products/${id}`} className="w-full sm:w-1/2">
-            <Button className="w-full text-sm" variant="secondary">
+            <Button
+              className="w-full text-sm cursor-pointer"
+              variant="secondary"
+            >
               <Eye className="w-4 h-4 mr-2" />
               Xem chi tiết
             </Button>

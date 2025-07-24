@@ -8,8 +8,7 @@ const mockProducts: Product[] = [
       name: "Cây lau nhà",
       image: [
         "/image/caylaunha.jpeg",
-        "/image/caylaunha1.jpeg",
-        "/image/caylaunha2.jpeg",
+        
       ] ,
       price: 120000,
       soldOut: false,
@@ -69,9 +68,7 @@ const mockProducts: Product[] = [
       name: "Muỗng canh sứ",
       image: [
         "/image/muongcanhsu.jpeg",
-        "/image/muongcanhsu1.jpeg",
-        "/image/muongcanhsu2.jpeg",
-        "/image/muongcanhsu3.jpeg",
+       
       ], // Thêm ảnh minh họa nếu có
       price: 6700,
       soldOut: false,
@@ -82,9 +79,7 @@ const mockProducts: Product[] = [
       name: "Nồi sứ có nắp đậy 10.5 inch",
       image: [
         "/image/noisu.jpeg",
-        "/image/noisu1.jpeg",
-        "/image/noisu2.jpeg",
-        "/image/noisu3.jpeg"
+        
       ], // Thêm ảnh minh họa nếu có
       price: 87000,
       soldOut: false,
@@ -95,9 +90,7 @@ const mockProducts: Product[] = [
       name: "Set 6 ly thuỷ tinh có quai 200ml DM254-3",
       image: [
         "/image/lythuytinhcoquai.jpeg",
-        "/image/lythuytinhcoquai1.jpeg",
-        "/image/lythuytinhcoquai2.jpeg",
-        "/image/lythuytinhcoquai3.jpeg"
+        
       ], // Thêm ảnh minh họa nếu có
       price: 46200,
       soldOut: false,
@@ -108,9 +101,7 @@ const mockProducts: Product[] = [
       name: "Thùng 20 khăn giấy nội địa Trung (Thùng Xanh) cao cấp, đa năng",
       image: [
         "/image/khangiay.jpeg",
-        "/image/khangiay1.jpeg",
-        "/image/khangiay2.jpeg",
-        "/image/khangiay3.jpeg"
+        
       ], // Thêm ảnh minh họa nếu có
       price: 127000,
       soldOut: false,
@@ -121,8 +112,7 @@ const mockProducts: Product[] = [
       name: "Set 5 gói giấy ăn LABUBU TO",
       image: [
         "/image/giayan.jpeg",
-        "/image/giayan1.jpeg",
-        "/image/giayan2.jpeg"
+        
       ], // Thêm ảnh minh họa nếu có
       price: 63000,
       soldOut: false,
@@ -133,8 +123,7 @@ const mockProducts: Product[] = [
       name: "Túi 10 gói khăn ướt tự tan",
       image: [
         "/image/giayuottutan.jpeg",
-        "/image/giayuottutan2.jpeg",
-        "/image/giayuottutan3.jpeg"
+        
       ], 
       price: 31000,
       soldOut: false,
@@ -145,8 +134,7 @@ const mockProducts: Product[] = [
       name: "Tựa lưng văn phòng hoạt hình",
       image: [
         "/image/tualung.jpeg",
-        "/image/tualung1.jpeg",
-        "/image/tualung2.jpeg"
+        
       ], 
       price: 63000,
       soldOut: false,
@@ -178,6 +166,47 @@ const mockProducts: Product[] = [
     soldOut: false,
     quantity: 13,
   },
+  {
+    id: 16,
+    name: "Rổ tai 2 lớp 3392",
+    price: 20000,
+    image: ["/image/rotai.jpeg"],
+    soldOut: true,
+    quantity: 0,
+  },
+  {
+    id: 17,
+    name: "Bộ đồ chơi câu cá 22 chi tiết",
+    price: 64000,
+    image: ["/image/dochoicauca.jpeg"],
+    soldOut: true,
+    quantity: 0,
+  },
+  {
+    id: 19,
+    name: "Nồi lẩu 2 tầng Misu",
+    price: 152000,
+    image: ["/image/noilau2tang.jpeg"],
+    soldOut: true,
+    quantity: 0,
+  },
+  {
+    id: 19,
+    name: "Nồi Chiên Không Dầu CAMEL 10L",
+    price: 410000,
+    image: ["/image/noichienkhongdau.jpeg"],
+    soldOut: true,
+    quantity: 0,
+  },
+  {
+    id: 20,
+    name: "Đèn dán tủ bếp ",
+    price: 25000,
+    image: ["/image/dendantubep.jpeg"],
+    soldOut: true,
+    quantity: 0,
+  },
+
 ];
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {

@@ -26,8 +26,7 @@ export default function AdminLoginPage() {
     const data = await res.json();
 
     if (res.ok && data.success) {
-      document.cookie = `admin-token=${data.token}; path=/`;
-      await router.push("/admin/homePage");
+      router.push("/admin/homePage");
     } else {
       setError(data.message || "Đăng nhập thất bại");
     }

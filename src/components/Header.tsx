@@ -6,7 +6,6 @@ import { ShoppingCart, User, Phone } from "lucide-react";
 import Menu from "./Menu";
 import { Button } from "./ui/button";
 
-// ✅ Khai báo kiểu CartItem rõ ràng thay vì dùng `any`
 type CartItem = {
   id: number;
   name: string;
@@ -21,7 +20,6 @@ export default function Header() {
 
   useEffect(() => {
     const loadData = () => {
-      // Lấy user từ localStorage
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
         try {
@@ -32,7 +30,6 @@ export default function Header() {
         }
       }
 
-      // Lấy giỏ hàng và đếm tổng số lượng (quantity)
       const storedCart: CartItem[] = JSON.parse(
         localStorage.getItem("cart") || "[]"
       );
@@ -41,8 +38,6 @@ export default function Header() {
     };
 
     loadData();
-
-    // Lắng nghe sự kiện cập nhật giỏ hàng
     window.addEventListener("cart-update", loadData);
 
     return () => {
@@ -63,7 +58,7 @@ export default function Header() {
       <div className="bg-gray-100 text-sm px-4 py-1 flex justify-between items-center text-gray-800">
         <div className="flex items-center gap-2">
           <Phone className="w-4 h-4" />
-          <span className="font-medium text-blue-600">09122457832</span>
+          <span className="font-medium text-red-600">09122457832</span>
         </div>
 
         <div className="flex items-center gap-4">
@@ -72,7 +67,13 @@ export default function Header() {
             <User className="w-4 h-4" />
             {userName ? (
               <div className="flex items-center gap-2">
-                <span className="font-semibold">{userName}</span>
+                {/* Link đến trang Account */}
+                <Link
+                  href="/accounts"
+                  className="font-semibold text-red-600 hover:underline"
+                >
+                  {userName}
+                </Link>
                 <Button
                   size="sm"
                   variant="outline"

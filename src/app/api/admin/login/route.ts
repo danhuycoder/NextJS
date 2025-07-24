@@ -5,17 +5,31 @@ export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
 
-    // Kiểm tra email & password (ví dụ đơn giản)
+    // Kiểm tra login (ví dụ cơ bản)
     if (email === 'admin@example.com' && password === '123456') {
-      // Trả về JWT token hoặc session (tạm thời trả dữ liệu mock)
-      return NextResponse.json({ success: true, token: 'fake-jwt-token' });
+      const response = NextResponse.json({
+        success: true,
+        message: 'Login thành công',
+      });
+
+      // Set cookie admin-token
+      response.cookies.set('admin-token', 'fake-jwt-token', {
+        httpOnly: true,  // Không cho JS đọc
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        path: '/',
+        maxAge: 60 * 60 * 24, // 1 ngày
+      });
+
+      return response;
     }
 
     return NextResponse.json(
       { success: false, message: 'Email hoặc mật khẩu không đúng' },
       { status: 401 }
     );
-  } catch  {
+  } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { success: false, message: 'Lỗi server' },
       { status: 500 }
